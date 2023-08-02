@@ -1,4 +1,4 @@
-package `in`.mrkaydev.animall
+package `in`.mrkaydev.animall.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -6,16 +6,12 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
-import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.sp
+import dagger.hilt.android.AndroidEntryPoint
+import `in`.mrkaydev.animall.presentation.screens.HomeScreen
 import `in`.mrkaydev.animall.ui.theme.AnimallTheme
-import `in`.mrkaydev.animall.ui.theme.appFontBold
-import `in`.mrkaydev.animall.ui.theme.appFontRegular
-import `in`.mrkaydev.animall.ui.theme.getTextStyle
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +21,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colors.background
                 ) {
-                    Text(text = "Hellllo", style = getTextStyle(18.sp, appFontBold))
+                   HomeScreen()
                 }
             }
         }

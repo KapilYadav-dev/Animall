@@ -1,5 +1,6 @@
 package `in`.mrkaydev.animall.utils
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -8,6 +9,7 @@ import androidx.compose.ui.unit.dp
 import com.jaikeerthick.composable_graphs.color.LinearGraphColors
 import com.jaikeerthick.composable_graphs.style.LineGraphStyle
 import com.jaikeerthick.composable_graphs.style.LinearGraphVisibility
+import `in`.mrkaydev.animall.BuildConfig
 import `in`.mrkaydev.animall.ui.theme.Teal200
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -80,4 +82,7 @@ object CommonUtils {
         ),
         height = 160.dp,
     )
+    fun String.log() {
+        if(BuildConfig.DEBUG) Log.d("KAPILSTAG",this)
+    }
 }

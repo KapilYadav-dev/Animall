@@ -153,7 +153,8 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
                     quantityInput,
                     perUnitInput,
                     totalRevenue,
-                    selectedDate.toMilliSeconds()
+                    selectedDate.toMilliSeconds(),
+                    selectedDate.toString()
                 )
                 viewModel.insertMilkSale(data)
                 Toast.makeText(context, "Sale add successfully", Toast.LENGTH_LONG).show()

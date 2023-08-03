@@ -10,5 +10,6 @@ data class MilkSaleEntity(
     @ColumnInfo(name = "quantity") val quantity: Double,
     @ColumnInfo(name = "price_per_unit") val pricePerUnit: Double,
     @ColumnInfo(name = "total_amount") val totalAmount: Double,
-    @ColumnInfo(name= "date") val date: Long
+    @ColumnInfo(name= "date") val date: Long,
+    @ColumnInfo(name="date_string") val dateString :String
 )

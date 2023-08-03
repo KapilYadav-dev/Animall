@@ -56,42 +56,68 @@ fun HomeScreen(navigator: NavHostController, viewModel: MilkSaleViewModel) {
         var currentItemIndex by remember { mutableStateOf(0) }
         val context = LocalContext.current
         val historyListSize = 5
-        val totalQuantityTillNow by viewModel.totalQuantityTillNow.collectAsState(initial = 0.0)
-        val totalRevenueTillNow by viewModel.totalRevenueTillNow.collectAsState(initial = 0.0)
-        val totalRevenueList by viewModel.milkSalesTotalTillNow.collectAsState(initial = emptyList())
 
-        var totalQuantityForPeriod by remember {
+        val totalQuantityTillNow by viewModel.totalQuantityTillNow.collectAsState(initial = 0.0)
+        val totalQuantityForPeriod by viewModel.totalQuantityPeriod.collectAsState(initial = 0.0)
+
+        val totalRevenueTillNow by viewModel.totalRevenueTillNow.collectAsState(initial = 0.0)
+        val totalRevenueForPeriod by viewModel.totalRevenuePeriod.collectAsState(initial = 0.0)
+
+
+        val averagePriceTillNow by viewModel.averagePricePeriodTillNow.collectAsState(initial = 0.0)
+        val averagePriceForPeriod by viewModel.averagePricePeriod.collectAsState(initial = 0.0)
+
+
+        val totalRevenueList by viewModel.milkSalesTotalTillNow.collectAsState(initial = emptyList())
+        val totalRevenueListForPeriod by viewModel.milkSalesForPeriod.collectAsState(initial = emptyList())
+
+        var totalQuantity by remember {
             mutableStateOf("-")
         }
-        var totalRevenueForPeriod by remember {
+        var totalRevenue by remember {
             mutableStateOf("-")
         }
-        var totalUserForPeriod by remember {
+        var totalUser by remember {
             mutableStateOf("-")
         }
-        var totalAvgPriceForPeriod by remember {
+        var totalAvgPrice by remember {
             mutableStateOf("-")
         }
 
         when (dataRangeList[currentItemIndex]) {
             "Total" -> {
-                totalQuantityForPeriod = totalQuantityTillNow.toString()
-                totalRevenueForPeriod = totalRevenueTillNow.toString()
-                totalUserForPeriod = totalRevenueList.size.toString()
+                totalQuantity = totalQuantityTillNow.toString()
+                totalRevenue = totalRevenueTillNow.toString()
+                totalUser = totalRevenueList.size.toString()
+                totalAvgPrice = averagePriceTillNow.toString()
             }
             "Daily" -> {
-                totalQuantityForPeriod = ""
-                totalRevenueForPeriod = ""
-                totalUserForPeriod = ""
+                viewModel.getAllDataForDate(1)
+                totalQuantity = totalQuantityForPeriod.toString()
+                totalRevenue = totalRevenueForPeriod.toString()
+                totalUser = totalRevenueListForPeriod.size.toString()
+                totalAvgPrice = averagePriceForPeriod.toString()
             }
             "Weekly" -> {
-
+                viewModel.getAllDataForDate(7)
+                totalQuantity = totalQuantityForPeriod.toString()
+                totalRevenue = totalRevenueForPeriod.toString()
+                totalUser = totalRevenueListForPeriod.size.toString()
+                totalAvgPrice = averagePriceForPeriod.toString()
             }
             "Monthly" -> {
-
+                viewModel.getAllDataForDate(30)
+                totalQuantity = totalQuantityForPeriod.toString()
+                totalRevenue = totalRevenueForPeriod.toString()
+                totalUser = totalRevenueListForPeriod.size.toString()
+                totalAvgPrice = averagePriceForPeriod.toString()
             }
             "Yearly" -> {
-
+                viewModel.getAllDataForDate(365)
+                totalQuantity = totalQuantityForPeriod.toString()
+                totalRevenue = totalRevenueForPeriod.toString()
+                totalUser = totalRevenueListForPeriod.size.toString()
+                totalAvgPrice = averagePriceForPeriod.toString()
             }
         }
         Column(
@@ -99,12 +125,6 @@ fun HomeScreen(navigator: NavHostController, viewModel: MilkSaleViewModel) {
                 .fillMaxSize()
                 .verticalScroll(scrollState)) {
             /*
-             *coroutineScope.launch {
-                    if (modalSheetState.isVisible)
-                        modalSheetState.hide()
-                    else
-                        modalSheetState.animateTo(ModalBottomSheetValue.Expanded)
-                }
                 *    val style = LineGraphStyle(
                 visibility = LinearGraphVisibility(
                     isHeaderVisible = true,
@@ -154,10 +174,10 @@ fun HomeScreen(navigator: NavHostController, viewModel: MilkSaleViewModel) {
                 ) { dataRangeList[currentItemIndex] }
             }
             SaleCard(
-                totalQuantityForPeriod = { totalQuantityForPeriod },
-                totalRevenueForPeriod = { totalRevenueForPeriod },
-                totalUserForPeriod = { totalUserForPeriod },
-                totalAvgPriceForPeriod = { totalAvgPriceForPeriod }
+                totalQuantityForPeriod = { totalQuantity },
+                totalRevenueForPeriod = { totalRevenue },
+                totalUserForPeriod = { totalUser },
+                totalAvgPriceForPeriod = { totalAvgPrice }
             )
             Text(
                 text = "Recent History", style = getTextStyle(

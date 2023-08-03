@@ -1,15 +1,10 @@
 package `in`.mrkaydev.animall.presentation.screens
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavHostController
 import `in`.mrkaydev.animall.presentation.viewmodels.MilkSaleViewModel
 
 @Composable
-fun HomeScreen(viewModel: MilkSaleViewModel = hiltViewModel()) {
-    Column(Modifier.fillMaxSize()) {
+fun HomeScreen(navigator: NavHostController, viewModel: MilkSaleViewModel) {
 
-    }
 }

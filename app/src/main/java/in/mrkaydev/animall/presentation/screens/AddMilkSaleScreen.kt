@@ -3,6 +3,7 @@ package `in`.mrkaydev.animall.presentation.screens
 import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
@@ -14,12 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import `in`.mrkaydev.animall.R
 import `in`.mrkaydev.animall.database.MilkSaleEntity
 import `in`.mrkaydev.animall.presentation.viewmodels.MilkSaleViewModel
 import `in`.mrkaydev.animall.ui.theme.Teal200
@@ -42,17 +44,33 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
             quantityInput * perUnitInput
         }
     }
+    val selectedDate by remember { mutableStateOf("") }
+    var showTimerDatePicker by remember { mutableStateOf(false) }
+    if(showTimerDatePicker) {
+       TODO("SHOW TIME PICKER")
+    }
+    Toast.makeText(context,"Selected date is $selectedDate",Toast.LENGTH_LONG).show()
     Column(
         Modifier
             .fillMaxWidth()
             .wrapContentHeight(Alignment.CenterVertically)
             .background(Color.White)
     ) {
-        Text(
-            text = "Record a sale",
-            style = getTextStyle(Color.Black, 22.sp, appFontBold),
-            modifier = Modifier.padding(16.dp)
-        )
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = "Record a sale",
+                style = getTextStyle(Color.Black, 22.sp, appFontBold),
+                modifier = Modifier.padding(16.dp)
+            )
+            Icon(
+                painter = painterResource(id = R.drawable.ic_clock),
+                contentDescription = "clock",
+                Modifier.size(48.dp).padding(end = 16.dp).clickable {
+                    showTimerDatePicker=true
+                },
+                tint = Color.Black
+            )
+        }
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -91,11 +109,11 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
         Button(
             onClick = {
                 if (quantityInput == 0.0) {
-                    Toast.makeText(context,"Milk quantity can't be 0",Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Milk quantity can't be 0", Toast.LENGTH_LONG).show()
                     return@Button
                 }
                 if (perUnitInput == 0.0) {
-                    Toast.makeText(context,"Price per unit can't be 0",Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, "Price per unit can't be 0", Toast.LENGTH_LONG).show()
                     return@Button
                 }
                 val data = MilkSaleEntity(
@@ -136,7 +154,7 @@ fun InputCell(
 ) {
     var textState = inputValue().toString()
     val pattern = remember { Regex("^(\\d*\\.?\\d*)\$") }
-    val maxChar = 8
+    val maxChar = 5
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,

@@ -107,7 +107,7 @@ class MilkSaleViewModel @Inject constructor(private val repository: MilkSaleRepo
         viewModelScope.launch {
             repository.getMilkSalesForPeriod(startDate.toMilliSeconds(), endDate.toMilliSeconds())
                 .collect {
-                    _milkSalesForPeriod.emit(it)
+                    it?.let { it1 -> _milkSalesForPeriod.emit(it1) }
                 }
         }
     }
@@ -122,7 +122,7 @@ class MilkSaleViewModel @Inject constructor(private val repository: MilkSaleRepo
                 endDate.toMilliSeconds()
             )
                 .collect {
-                    _totalQuantityPeriod.emit(it)
+                    it?.let { it1 -> _totalQuantityPeriod.emit(it1) }
                 }
         }
     }
@@ -137,7 +137,7 @@ class MilkSaleViewModel @Inject constructor(private val repository: MilkSaleRepo
                 endDate.toMilliSeconds()
             )
                 .collect {
-                    _totalRevenuePeriod.emit(it)
+                    it?.let { it1 -> _totalRevenuePeriod.emit(it1) }
                 }
         }
     }
@@ -152,7 +152,7 @@ class MilkSaleViewModel @Inject constructor(private val repository: MilkSaleRepo
                 endDate.toMilliSeconds()
             )
                 .collect {
-                    _averagePricePeriod.emit(it)
+                    it?.let { it1 -> _averagePricePeriod.emit(it1) }
                 }
         }
     }

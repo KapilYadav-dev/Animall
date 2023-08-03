@@ -6,19 +6,17 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material.*
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
+import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.input.ImeAction
-import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
@@ -27,10 +25,10 @@ import com.commandiron.wheel_picker_compose.WheelDateTimePicker
 import com.commandiron.wheel_picker_compose.core.TimeFormat
 import com.commandiron.wheel_picker_compose.core.WheelPickerDefaults
 import `in`.mrkaydev.animall.database.MilkSaleEntity
+import `in`.mrkaydev.animall.presentation.components.InputCell
 import `in`.mrkaydev.animall.presentation.viewmodels.MilkSaleViewModel
 import `in`.mrkaydev.animall.ui.theme.Teal200
 import `in`.mrkaydev.animall.ui.theme.appFontBold
-import `in`.mrkaydev.animall.ui.theme.appFontRegular
 import `in`.mrkaydev.animall.ui.theme.getTextStyle
 import `in`.mrkaydev.animall.utils.CommonUtils
 import `in`.mrkaydev.animall.utils.CommonUtils.dateToLocalDateTime
@@ -169,56 +167,5 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
                     .padding(8.dp)
             )
         }
-    }
-}
-
-@Composable
-fun InputCell(
-    text: () -> String,
-    onValueChange: (String) -> Unit,
-    modifier: Modifier,
-    inputValue: () -> Double,
-    isEnabled: Boolean = true
-) {
-    var textState = inputValue().toString()
-    val pattern = remember { Regex("^(\\d*\\.?\\d*)\$") }
-    val maxChar = 5
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = CenterHorizontally,
-    ) {
-        Text(
-            text = text(), style = getTextStyle(
-                Color.Black.copy(0.4f),
-                fontSize = 16.sp,
-                fontFamily = appFontRegular,
-                textAlign = TextAlign.Center
-            ), modifier = Modifier.padding(top = 32.dp)
-        )
-        TextField(
-            value = textState,
-            onValueChange = {
-                if (it.isEmpty() || it.matches(pattern) && it.length <= maxChar) {
-                    textState = it
-                    onValueChange(it)
-                }
-            },
-            textStyle = getTextStyle(
-                Color.Black, 18.sp, appFontRegular, textAlign = TextAlign.Center
-            ),
-            keyboardOptions = KeyboardOptions.Default.copy(
-                imeAction = ImeAction.Done,
-                keyboardType = KeyboardType.Number,
-            ),
-            modifier = Modifier.padding(4.dp),
-            enabled = isEnabled,
-            colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = Color.Transparent,
-                focusedIndicatorColor = Color.Transparent,
-                unfocusedIndicatorColor = Color.Transparent,
-                cursorColor = Color.Black
-            )
-        )
     }
 }

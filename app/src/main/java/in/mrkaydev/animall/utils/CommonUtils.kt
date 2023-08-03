@@ -49,4 +49,7 @@ object CommonUtils {
 
         return daysList.reversed()
     }
+    fun getDataRangeList() = listOf(
+        "Total","Daily","Weekly","Monthly","Yearly"
+    )
 }

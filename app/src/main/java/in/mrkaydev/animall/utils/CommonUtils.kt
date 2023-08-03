@@ -1,5 +1,9 @@
 package `in`.mrkaydev.animall.utils
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalConfiguration
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.util.*
 
 object CommonUtils {
@@ -18,5 +22,18 @@ object CommonUtils {
             println("Exception ho rha hai jiiiii")
             defaultValue
         }
+    }
+    @Composable
+    fun ScreenWidthInDp(): Float {
+        val configuration = LocalConfiguration.current
+        return configuration.screenWidthDp.toFloat()
+    }
+
+    fun localDateTimeToDate(localDateTime: LocalDateTime): Date {
+        return Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant())
+    }
+
+    fun dateToLocalDateTime(date: Date): LocalDateTime {
+        return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
     }
 }

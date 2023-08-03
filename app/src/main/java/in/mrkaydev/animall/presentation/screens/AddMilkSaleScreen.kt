@@ -1,10 +1,11 @@
 package `in`.mrkaydev.animall.presentation.screens
 
 import android.widget.Toast
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.runtime.*
@@ -15,21 +16,28 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import `in`.mrkaydev.animall.R
+import com.commandiron.wheel_picker_compose.WheelDateTimePicker
+import com.commandiron.wheel_picker_compose.core.TimeFormat
+import com.commandiron.wheel_picker_compose.core.WheelPickerDefaults
 import `in`.mrkaydev.animall.database.MilkSaleEntity
 import `in`.mrkaydev.animall.presentation.viewmodels.MilkSaleViewModel
 import `in`.mrkaydev.animall.ui.theme.Teal200
 import `in`.mrkaydev.animall.ui.theme.appFontBold
 import `in`.mrkaydev.animall.ui.theme.appFontRegular
 import `in`.mrkaydev.animall.ui.theme.getTextStyle
+import `in`.mrkaydev.animall.utils.CommonUtils
+import `in`.mrkaydev.animall.utils.CommonUtils.dateToLocalDateTime
+import `in`.mrkaydev.animall.utils.CommonUtils.localDateTimeToDate
 import `in`.mrkaydev.animall.utils.CommonUtils.toDoubleSafe
 import `in`.mrkaydev.animall.utils.CommonUtils.toMilliSeconds
+import java.time.LocalDateTime
 import java.util.*
 
 
@@ -44,33 +52,25 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
             quantityInput * perUnitInput
         }
     }
-    val selectedDate by remember { mutableStateOf("") }
-    var showTimerDatePicker by remember { mutableStateOf(false) }
-    if(showTimerDatePicker) {
-       TODO("SHOW TIME PICKER")
-    }
-    Toast.makeText(context,"Selected date is $selectedDate",Toast.LENGTH_LONG).show()
+    val calendar = Calendar.getInstance()
+    calendar.set(Calendar.YEAR, 2022)
+    calendar.set(Calendar.MONTH, 12)
+    val calendarMax = Calendar.getInstance()
+    calendarMax.set(Calendar.YEAR, 2032)
+    calendarMax.set(Calendar.MONTH, 12)
+    var selectedDate by remember { mutableStateOf(Date()) }
+
     Column(
         Modifier
             .fillMaxWidth()
             .wrapContentHeight(Alignment.CenterVertically)
             .background(Color.White)
     ) {
-        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween, verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                text = "Record a sale",
-                style = getTextStyle(Color.Black, 22.sp, appFontBold),
-                modifier = Modifier.padding(16.dp)
-            )
-            Icon(
-                painter = painterResource(id = R.drawable.ic_clock),
-                contentDescription = "clock",
-                Modifier.size(48.dp).padding(end = 16.dp).clickable {
-                    showTimerDatePicker=true
-                },
-                tint = Color.Black
-            )
-        }
+        Text(
+            text = "Record a sale",
+            style = getTextStyle(Color.Black, 22.sp, appFontBold),
+            modifier = Modifier.padding(16.dp)
+        )
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -106,6 +106,34 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
                 }
             )
         }
+        Spacer(modifier =Modifier.height(8.dp))
+        Text(
+            text = "Pick date and time",
+            style = getTextStyle(Color.Black, 22.sp, appFontBold),
+            modifier = Modifier.padding(16.dp)
+        )
+        Spacer(modifier =Modifier.height(8.dp))
+        WheelDateTimePicker(
+            timeFormat = TimeFormat.AM_PM,
+            minDateTime = LocalDateTime.of(
+                2005, 10, 20, 5, 30
+            ),
+            textStyle = TextStyle(fontFamily = appFontBold),
+            startDateTime = dateToLocalDateTime(selectedDate),
+            size = DpSize(CommonUtils.ScreenWidthInDp().dp, 100.dp),
+            maxDateTime = LocalDateTime.of(
+                2025, 10, 20, 5, 30
+            ),
+            selectorProperties = WheelPickerDefaults.selectorProperties(
+                enabled = true,
+                shape = RoundedCornerShape(0.dp),
+                color = Teal200.copy(alpha = 0.2f),
+                border = BorderStroke(2.dp, Teal200)
+            )
+        ) {
+            selectedDate=localDateTimeToDate(it)
+        }
+        Spacer(modifier =Modifier.height(8.dp))
         Button(
             onClick = {
                 if (quantityInput == 0.0) {
@@ -121,7 +149,7 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
                     quantityInput,
                     perUnitInput,
                     totalRevenue,
-                    Date().toMilliSeconds()
+                    selectedDate.toMilliSeconds()
                 )
                 viewModel.insertMilkSale(data)
                 Toast.makeText(context, "Sale add successfully", Toast.LENGTH_LONG).show()
@@ -135,7 +163,7 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
                 .padding(24.dp)
         ) {
             Text(
-                text = "Add to sales",
+                text = "Record",
                 style = getTextStyle(Color.White, 22.sp, appFontBold, TextAlign.Center),
                 modifier = Modifier
                     .padding(8.dp)

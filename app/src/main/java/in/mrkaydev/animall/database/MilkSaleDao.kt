@@ -21,18 +21,15 @@ interface MilkSaleDao {
     @Query("SELECT SUM(total_amount) FROM milk_sales")
     fun  getTotalRevenue(): Flow<Double>
 
-    @Query("SELECT SUM(price_per_unit) FROM milk_sales")
-    fun  getTotalPrice(): Flow<Double>
-
     @Query("SELECT * FROM milk_sales WHERE date BETWEEN :startDate AND :endDate")
-    fun  getMilkSalesForPeriod(startDate: Date, endDate: Date): Flow<List<MilkSaleEntity>>
+    fun  getMilkSalesForPeriod(startDate: Long, endDate: Long): Flow<List<MilkSaleEntity>>
 
     @Query("SELECT SUM(quantity) FROM milk_sales WHERE date BETWEEN :startDate AND :endDate")
-    fun  getTotalQuantityForPeriod(startDate: Date, endDate: Date): Flow<Double>
+    fun  getTotalQuantityForPeriod(startDate: Long, endDate: Long): Flow<Double>
 
     @Query("SELECT SUM(total_amount) FROM milk_sales WHERE date BETWEEN :startDate AND :endDate")
-    fun  getTotalRevenueForPeriod(startDate: Date, endDate: Date): Flow<Double>
+    fun  getTotalRevenueForPeriod(startDate: Long, endDate: Long): Flow<Double>
 
     @Query("SELECT AVG(price_per_unit) FROM milk_sales WHERE date BETWEEN :startDate AND :endDate")
-    fun  getAveragePriceForPeriod(startDate: Date, endDate: Date): Flow<Double>
+    fun  getAveragePriceForPeriod(startDate: Long, endDate: Long): Flow<Double>
 }

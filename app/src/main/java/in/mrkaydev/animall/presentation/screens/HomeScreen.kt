@@ -122,78 +122,87 @@ fun HomeScreen(navigator: NavHostController, viewModel: MilkSaleViewModel) {
                 totalAvgPrice = averagePriceForPeriod.toString()
             }
         }
-        Column(
-            Modifier
-                .fillMaxSize()
-                .verticalScroll(scrollState)
-        ) {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically
-            ) {
-                Text(
-                    text = "Statistics till now", style = getTextStyle(
-                        Color.Black, 18.sp,
-                        appFontBold
-                    )
-                )
-                Picker(
-                    modifier = Modifier
-                        .background(
-                            color = Color(0x66D9D9D9),
-                            shape = RoundedCornerShape(size = 12.dp)
-                        )
-                        .padding(4.dp),
-                    onClick = {
-                        currentItemIndex = (currentItemIndex + 1) % dataRangeList.size
-                    }
-                ) { dataRangeList[currentItemIndex] }
-            }
-            SaleCard(
-                totalQuantityForPeriod = { totalQuantity },
-                totalRevenueForPeriod = { totalRevenue },
-                totalUserForPeriod = { totalUser },
-                totalAvgPriceForPeriod = { totalAvgPrice }
-            )
-            val xAxisList =
-                totalRevenueList.takeLast(if (totalRevenueList.size < historyListSize) totalRevenueList.size else historyListSize)
-                    .mapNotNull { it.id }
-            val yAxisListFirst = totalRevenueList
-                .takeLast(if (totalRevenueList.size < historyListSize) totalRevenueList.size else historyListSize)
-                .reversed().map { it.quantity }
-            val yAxisListSecond = totalRevenueList
-                .takeLast(if (totalRevenueList.size < historyListSize) totalRevenueList.size else historyListSize)
-                .reversed().map { it.totalAmount }
-            if (xAxisList.isNotEmpty() && yAxisListFirst.isNotEmpty() && yAxisListSecond.isNotEmpty() && xAxisList.size > 2) {
-                Graph("Quantity of Milk (ltr)", xAxisList, yAxisListFirst)
-                Graph("Total Milk sold (₹)", xAxisList, yAxisListSecond)
-            }
-            Text(
-                text = "Recent History", style = getTextStyle(
-                    Color.Black, 18.sp,
-                    appFontBold
-                ),
-                modifier = Modifier.padding(16.dp)
-            )
-            LazyColumn(
-                Modifier
-                    .fillMaxWidth()
-                    .height(400.dp),
-                contentPadding = PaddingValues(16.dp)
-            ) {
-                items(
-                    totalRevenueList
-                        .takeLast(if (totalRevenueList.size < historyListSize) totalRevenueList.size else historyListSize)
-                        .reversed()
-                ) { item ->
-                    HistoryItem(item)
-                }
-            }
-        }
         Box(modifier = Modifier.fillMaxSize()) {
+            if (totalRevenueList.isNotEmpty()) {
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .verticalScroll(scrollState)
+                ) {
+                    Row(
+                        Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = "Statistics till now", style = getTextStyle(
+                                Color.Black, 18.sp,
+                                appFontBold
+                            )
+                        )
+                        Picker(
+                            modifier = Modifier
+                                .background(
+                                    color = Color(0x66D9D9D9),
+                                    shape = RoundedCornerShape(size = 12.dp)
+                                )
+                                .padding(4.dp),
+                            onClick = {
+                                currentItemIndex = (currentItemIndex + 1) % dataRangeList.size
+                            }
+                        ) { dataRangeList[currentItemIndex] }
+                    }
+                    SaleCard(
+                        totalQuantityForPeriod = { totalQuantity },
+                        totalRevenueForPeriod = { totalRevenue },
+                        totalUserForPeriod = { totalUser },
+                        totalAvgPriceForPeriod = { totalAvgPrice }
+                    )
+                    val xAxisList =
+                        totalRevenueList.takeLast(if (totalRevenueList.size < historyListSize) totalRevenueList.size else historyListSize)
+                            .mapNotNull { it.id }
+                    val yAxisListFirst = totalRevenueList
+                        .takeLast(if (totalRevenueList.size < historyListSize) totalRevenueList.size else historyListSize)
+                        .reversed().map { it.quantity }
+                    val yAxisListSecond = totalRevenueList
+                        .takeLast(if (totalRevenueList.size < historyListSize) totalRevenueList.size else historyListSize)
+                        .reversed().map { it.totalAmount }
+                    if (xAxisList.isNotEmpty() && yAxisListFirst.isNotEmpty() && yAxisListSecond.isNotEmpty() && xAxisList.size > 2) {
+                        Graph("Quantity of Milk (ltr)", xAxisList, yAxisListFirst)
+                        Graph("Total Milk sold (₹)", xAxisList, yAxisListSecond)
+                    }
+                    Text(
+                        text = "Recent History", style = getTextStyle(
+                            Color.Black, 18.sp,
+                            appFontBold
+                        ),
+                        modifier = Modifier.padding(16.dp)
+                    )
+                    LazyColumn(
+                        Modifier
+                            .fillMaxWidth()
+                            .height(400.dp),
+                        contentPadding = PaddingValues(16.dp)
+                    ) {
+                        items(
+                            totalRevenueList
+                                .takeLast(if (totalRevenueList.size < historyListSize) totalRevenueList.size else historyListSize)
+                                .reversed()
+                        ) { item ->
+                            HistoryItem(item)
+                        }
+                    }
+                }
+            } else {
+                Text(
+                    text = "Add a new record to show data",
+                    fontFamily = appFontBold,
+                    fontSize = 18.sp,
+                    modifier = Modifier.align(Alignment.Center)
+                )
+            }
             Icon(
                 modifier = Modifier
                     .padding(32.dp)

@@ -24,19 +24,19 @@ class MilkSaleRepository @Inject constructor(private val milkSaleDao: MilkSaleDa
     }
 
 
-    fun getMilkSalesForPeriod(startDate: Long, endDate: Long): Flow<List<MilkSaleEntity>> {
+    fun getMilkSalesForPeriod(startDate: Long, endDate: Long): Flow<List<MilkSaleEntity>?> {
         return milkSaleDao.getMilkSalesForPeriod(startDate, endDate)
     }
 
-    fun getTotalQuantityForPeriod(startDate: Long, endDate: Long): Flow<Double> {
+    fun getTotalQuantityForPeriod(startDate: Long, endDate: Long): Flow<Double?> {
         return milkSaleDao.getTotalQuantityForPeriod(startDate, endDate)
     }
 
-    fun getTotalRevenueForPeriod(startDate: Long, endDate: Long): Flow<Double> {
+    fun getTotalRevenueForPeriod(startDate: Long, endDate: Long): Flow<Double?> {
         return milkSaleDao.getTotalRevenueForPeriod(startDate, endDate)
     }
 
-    fun getAveragePriceForPeriod(startDate: Long, endDate: Long): Flow<Double> {
+    fun getAveragePriceForPeriod(startDate: Long, endDate: Long): Flow<Double?> {
         return milkSaleDao.getAveragePriceForPeriod(startDate, endDate)
     }
 }

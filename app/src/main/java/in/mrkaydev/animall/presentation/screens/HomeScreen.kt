@@ -10,10 +10,19 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.jaikeerthick.composable_graphs.color.LinearGraphColors
+import com.jaikeerthick.composable_graphs.color.PointHighlight2
+import com.jaikeerthick.composable_graphs.composables.LineGraph
+import com.jaikeerthick.composable_graphs.data.GraphData
+import com.jaikeerthick.composable_graphs.style.LineGraphStyle
+import com.jaikeerthick.composable_graphs.style.LinearGraphVisibility
 import `in`.mrkaydev.animall.presentation.viewmodels.MilkSaleViewModel
+import `in`.mrkaydev.animall.ui.theme.Teal200
 import `in`.mrkaydev.animall.utils.CommonUtils
 import kotlinx.coroutines.launch
 import java.util.*
@@ -51,6 +60,28 @@ fun HomeScreen(navigator: NavHostController, viewModel: MilkSaleViewModel) {
                     else
                         modalSheetState.animateTo(ModalBottomSheetValue.Expanded)
                 }
+                *    val style = LineGraphStyle(
+                visibility = LinearGraphVisibility(
+                    isHeaderVisible = true,
+                    isYAxisLabelVisible = true,
+                    isCrossHairVisible = true
+                ),
+                colors = LinearGraphColors(
+                    lineColor = Teal200,
+                    pointColor = Teal200,
+                    clickHighlightColor = Color.Black,
+                    fillGradient = Brush.verticalGradient(
+                        listOf(Teal200.copy(alpha = 0.4f), Color.White)
+                    )
+                )
+            )
+            * LineGraph(
+                xAxisData = listOf("Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat").map {
+                    GraphData.String(it)
+                },
+                yAxisData = listOf(2000, 40, 60, 450, 700, 30, 50),
+                style = style
+            )
              */
 
         }

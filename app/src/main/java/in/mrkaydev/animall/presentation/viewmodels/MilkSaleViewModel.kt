@@ -84,7 +84,7 @@ class MilkSaleViewModel @Inject constructor(private val repository: MilkSaleRepo
     fun getTotalQuantity() {
         viewModelScope.launch {
             repository.getTotalQuantity().collect {
-                _totalQuantityTillNow.emit(it)
+                it?.let { it1 -> _totalQuantityTillNow.emit(it1) }
             }
         }
     }
@@ -95,7 +95,7 @@ class MilkSaleViewModel @Inject constructor(private val repository: MilkSaleRepo
     private fun getTotalRevenue() {
         viewModelScope.launch {
             repository.getTotalRevenue().collect {
-                _totalRevenueTillNow.emit(it)
+                it?.let { it1 -> _totalRevenueTillNow.emit(it1) }
             }
         }
     }

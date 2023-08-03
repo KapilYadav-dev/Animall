@@ -116,12 +116,10 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
             minDateTime = LocalDateTime.of(
                 2005, 10, 20, 5, 30
             ),
+            maxDateTime = dateToLocalDateTime(selectedDate),
             textStyle = TextStyle(fontFamily = appFontBold),
             startDateTime = dateToLocalDateTime(selectedDate),
             size = DpSize(CommonUtils.ScreenWidthInDp().dp, 100.dp),
-            maxDateTime = LocalDateTime.of(
-                2025, 10, 20, 5, 30
-            ),
             selectorProperties = WheelPickerDefaults.selectorProperties(
                 enabled = true,
                 shape = RoundedCornerShape(0.dp),
@@ -138,8 +136,16 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
                     Toast.makeText(context, "Milk quantity can't be 0", Toast.LENGTH_LONG).show()
                     return@Button
                 }
+                if(quantityInput>1000.0) {
+                    Toast.makeText(context, "Milk quantity can't exceed 1000 litres", Toast.LENGTH_LONG).show()
+                    return@Button
+                }
                 if (perUnitInput == 0.0) {
                     Toast.makeText(context, "Price per unit can't be 0", Toast.LENGTH_LONG).show()
+                    return@Button
+                }
+                if(perUnitInput>100.0) {
+                    Toast.makeText(context, "Price can't exceed 100 litres", Toast.LENGTH_LONG).show()
                     return@Button
                 }
                 val data = MilkSaleEntity(

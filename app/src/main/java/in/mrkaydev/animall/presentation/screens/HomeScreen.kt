@@ -6,7 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,6 +33,7 @@ import java.util.*
 @OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun HomeScreen(navigator: NavHostController, viewModel: MilkSaleViewModel) {
+    val scrollState = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
     val modalSheetState = rememberModalBottomSheetState(
         initialValue = ModalBottomSheetValue.Hidden,
@@ -91,7 +94,10 @@ fun HomeScreen(navigator: NavHostController, viewModel: MilkSaleViewModel) {
 
             }
         }
-        Column(Modifier.fillMaxSize()) {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .verticalScroll(scrollState)) {
             /*
              *coroutineScope.launch {
                     if (modalSheetState.isVisible)
@@ -154,14 +160,14 @@ fun HomeScreen(navigator: NavHostController, viewModel: MilkSaleViewModel) {
                 totalAvgPriceForPeriod = { totalAvgPriceForPeriod }
             )
             Text(
-                text = "Statistics till now", style = getTextStyle(
+                text = "Recent History", style = getTextStyle(
                     Color.Black, 18.sp,
                     appFontBold
                 ),
                 modifier = Modifier.padding(16.dp)
             )
             LazyColumn(
-                Modifier.fillMaxWidth(),
+                Modifier.fillMaxWidth().height(400.dp),
                 contentPadding = PaddingValues(16.dp)
             ) {
                 items(

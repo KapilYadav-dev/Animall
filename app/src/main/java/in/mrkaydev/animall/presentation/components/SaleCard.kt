@@ -10,6 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import `in`.mrkaydev.animall.ui.theme.appFontBold
@@ -51,29 +52,38 @@ fun SaleCard(
         Row(
             Modifier
                 .fillMaxWidth()
-                .padding()) {
+                .padding()
+        ) {
             TextCell(
                 textTop = { "Total user covered" },
-                textBottom = {totalUserForPeriod()},
+                textBottom = { totalUserForPeriod() },
                 modifier = Modifier
                     .weight(1f)
                     .padding(top = 16.dp)
-                    .border(1.dp, Color.Gray.copy(alpha = 0.1f), RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
+                    .border(
+                        1.dp,
+                        Color.Gray.copy(alpha = 0.1f),
+                        RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)
+                    )
             )
             TextCell(
                 textTop = { "Average price/litre" },
-                textBottom = {totalAvgPriceForPeriod()},
+                textBottom = { totalAvgPriceForPeriod() },
                 modifier = Modifier
                     .weight(1f)
                     .padding(top = 16.dp)
-                    .border(1.dp, Color.Gray.copy(alpha = 0.1f), RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp))
+                    .border(
+                        1.dp,
+                        Color.Gray.copy(alpha = 0.1f),
+                        RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)
+                    )
             )
         }
     }
 }
 
 @Composable
-fun TextCell(textTop: () -> String,textBottom: () -> String, modifier: Modifier) {
+fun TextCell(textTop: () -> String, textBottom: () -> String, modifier: Modifier) {
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,
@@ -94,7 +104,9 @@ fun TextCell(textTop: () -> String,textBottom: () -> String, modifier: Modifier)
                 fontSize = 18.sp,
                 fontFamily = appFontRegular,
                 textAlign = TextAlign.Center
-            ), modifier = Modifier.padding(top = 32.dp, bottom = 16.dp)
+            ), modifier = Modifier.padding(top = 32.dp, bottom = 16.dp),
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }

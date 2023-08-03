@@ -30,8 +30,8 @@ fun InputCell(
     isEnabled: Boolean = true
 ) {
     var textState = inputValue().toString()
-    val pattern = remember { Regex("^(\\d*\\.?\\d*)\$") }
-    val maxChar = 5
+    val pattern = remember { Regex("\\d*(\\.\\d{0,2})?") }
+    val maxChar = 7
     Column(
         modifier = modifier,
         verticalArrangement = Arrangement.Center,

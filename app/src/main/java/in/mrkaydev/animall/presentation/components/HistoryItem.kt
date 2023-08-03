@@ -65,7 +65,7 @@ fun HistoryItem(item: MilkSaleEntity) {
             )
             TextCell(
                 textTop = { "Total price" },
-                textBottom = { "₹ ${item.quantity}" },
+                textBottom = { "₹ ${item.totalAmount}" },
                 modifier = Modifier
                     .weight(1f)
                     .padding(top = 16.dp)

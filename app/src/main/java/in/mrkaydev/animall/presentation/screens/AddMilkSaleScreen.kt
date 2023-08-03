@@ -119,7 +119,7 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
             maxDateTime = dateToLocalDateTime(selectedDate),
             textStyle = TextStyle(fontFamily = appFontBold),
             startDateTime = dateToLocalDateTime(selectedDate),
-            size = DpSize(CommonUtils.ScreenWidthInDp().dp, 100.dp),
+            size = DpSize(CommonUtils.screenWidthInDp().dp, 100.dp),
             selectorProperties = WheelPickerDefaults.selectorProperties(
                 enabled = true,
                 shape = RoundedCornerShape(0.dp),

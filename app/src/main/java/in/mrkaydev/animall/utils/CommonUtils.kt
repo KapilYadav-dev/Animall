@@ -33,7 +33,7 @@ object CommonUtils {
         }
     }
     @Composable
-    fun ScreenWidthInDp(): Float {
+    fun screenWidthInDp(): Float {
         val configuration = LocalConfiguration.current
         return configuration.screenWidthDp.toFloat()
     }

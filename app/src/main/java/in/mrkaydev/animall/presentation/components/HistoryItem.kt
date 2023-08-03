@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.sp
 import `in`.mrkaydev.animall.database.MilkSaleEntity
 import `in`.mrkaydev.animall.ui.theme.appFontRegular
 import `in`.mrkaydev.animall.ui.theme.getTextStyle
+import `in`.mrkaydev.animall.utils.CommonUtils.removeValuesAfterTwoDecimalPlaces
 
 @Composable
 fun HistoryItem(item: MilkSaleEntity) {
@@ -65,7 +66,7 @@ fun HistoryItem(item: MilkSaleEntity) {
             )
             TextCell(
                 textTop = { "Total price" },
-                textBottom = { "₹ ${item.totalAmount}" },
+                textBottom = { "₹ ${item.totalAmount.toString().removeValuesAfterTwoDecimalPlaces()}" },
                 modifier = Modifier
                     .weight(1f)
                     .padding(top = 16.dp)

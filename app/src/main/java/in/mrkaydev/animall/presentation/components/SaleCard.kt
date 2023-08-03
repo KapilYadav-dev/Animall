@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.sp
 import `in`.mrkaydev.animall.ui.theme.appFontBold
 import `in`.mrkaydev.animall.ui.theme.appFontRegular
 import `in`.mrkaydev.animall.ui.theme.getTextStyle
+import `in`.mrkaydev.animall.utils.CommonUtils.removeValuesAfterTwoDecimalPlaces
 
 
 @Composable
@@ -41,7 +42,7 @@ fun SaleCard(
             modifier = Modifier.padding(start = 24.dp, top = 16.dp)
         )
         Text(
-            text = "₹ ${totalRevenueForPeriod()} / ltr ${totalQuantityForPeriod()}",
+            text = "₹ ${totalRevenueForPeriod().removeValuesAfterTwoDecimalPlaces()} / ltr ${totalQuantityForPeriod().removeValuesAfterTwoDecimalPlaces()}",
             style = getTextStyle(
                 fontSize = 18.sp,
                 fontFamily = appFontBold,

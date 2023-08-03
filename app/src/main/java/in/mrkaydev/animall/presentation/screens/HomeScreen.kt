@@ -40,22 +40,19 @@ fun HomeScreen(navigator: NavHostController, viewModel: MilkSaleViewModel) {
         }
     ) {
         val context = LocalContext.current
-        viewModel.getTotalQuantity()
         val totalQ by viewModel.totalQuantityTillNow.collectAsState(initial = 0.0)
         val totalR by viewModel.totalRevenueTillNow.collectAsState(initial = 0.0)
         val totalL by viewModel.milkSalesTotalTillNow.collectAsState(initial = 0.0)
         Column(Modifier.fillMaxSize()) {
-            Button(onClick = {
-                coroutineScope.launch {
+            /*
+             *coroutineScope.launch {
                     if (modalSheetState.isVisible)
                         modalSheetState.hide()
                     else
                         modalSheetState.animateTo(ModalBottomSheetValue.Expanded)
                 }
-            }) {
+             */
 
-            }
-            Text(text = "Total Quantity is $totalQ and total Revenue is $totalR and totalList size is $totalL")
         }
     }
 }

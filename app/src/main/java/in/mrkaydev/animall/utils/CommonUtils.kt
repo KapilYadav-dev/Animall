@@ -2,8 +2,10 @@ package `in`.mrkaydev.animall.utils
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalConfiguration
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
+import java.time.format.DateTimeFormatter
 import java.util.*
 
 object CommonUtils {
@@ -35,5 +37,16 @@ object CommonUtils {
 
     fun dateToLocalDateTime(date: Date): LocalDateTime {
         return date.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+    }
+    fun getDaysIncludingToday(days:Int): List<String> {
+        val today = LocalDate.now()
+        val formatter = DateTimeFormatter.ofPattern("EEEE")
+        val daysList = mutableListOf<String>()
+
+        for (i in 0 until days) {
+            daysList.add(today.minusDays(i.toLong()).format(formatter))
+        }
+
+        return daysList.reversed()
     }
 }

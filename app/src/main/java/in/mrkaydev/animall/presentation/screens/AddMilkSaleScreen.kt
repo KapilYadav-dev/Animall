@@ -76,7 +76,7 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
                 .fillMaxWidth()
         ) {
             InputCell(
-                text = { "Liter" },
+                text = { "Litre" },
                 onValueChange = {
                     quantityInput = it.toDoubleSafe()
                 },
@@ -86,7 +86,7 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
                     .border(1.dp, Color.Gray.copy(alpha = 0.1f), RectangleShape)
             )
             InputCell(
-                text = { "Rate per liter" },
+                text = { "Rate per litre" },
                 onValueChange = {
                     perUnitInput = it.toDoubleSafe()
                 },

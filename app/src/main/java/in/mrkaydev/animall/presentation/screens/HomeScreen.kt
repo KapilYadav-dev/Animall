@@ -1,5 +1,6 @@
 package `in`.mrkaydev.animall.presentation.screens
 
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import `in`.mrkaydev.animall.R
+import `in`.mrkaydev.animall.presentation.components.Graph
 import `in`.mrkaydev.animall.presentation.components.HistoryItem
 import `in`.mrkaydev.animall.presentation.components.Picker
 import `in`.mrkaydev.animall.presentation.components.SaleCard
@@ -123,31 +125,8 @@ fun HomeScreen(navigator: NavHostController, viewModel: MilkSaleViewModel) {
         Column(
             Modifier
                 .fillMaxSize()
-                .verticalScroll(scrollState)) {
-            /*
-                *    val style = LineGraphStyle(
-                visibility = LinearGraphVisibility(
-                    isHeaderVisible = true,
-                    isYAxisLabelVisible = true,
-                    isCrossHairVisible = true
-                ),
-                colors = LinearGraphColors(
-                    lineColor = Teal200,
-                    pointColor = Teal200,
-                    clickHighlightColor = Color.Black,
-                    fillGradient = Brush.verticalGradient(
-                        listOf(Teal200.copy(alpha = 0.4f), Color.White)
-                    )
-                )
-            )
-            * LineGraph(
-                xAxisData = listOf("Sun", "Mon", "Tues", "Wed", "Thur", "Fri", "Sat").map {
-                    GraphData.String(it)
-                },
-                yAxisData = listOf(2000, 40, 60, 450, 700, 30, 50),
-                style = style
-            )
-             */
+                .verticalScroll(scrollState)
+        ) {
             Row(
                 Modifier
                     .fillMaxWidth()
@@ -179,6 +158,19 @@ fun HomeScreen(navigator: NavHostController, viewModel: MilkSaleViewModel) {
                 totalUserForPeriod = { totalUser },
                 totalAvgPriceForPeriod = { totalAvgPrice }
             )
+            val xAxisList =
+                totalRevenueList.takeLast(if (totalRevenueList.size < historyListSize) totalRevenueList.size else historyListSize)
+                    .mapNotNull { it.id }
+            val yAxisListFirst = totalRevenueList
+                .takeLast(if (totalRevenueList.size < historyListSize) totalRevenueList.size else historyListSize)
+                .reversed().map { it.quantity }
+            val yAxisListSecond = totalRevenueList
+                .takeLast(if (totalRevenueList.size < historyListSize) totalRevenueList.size else historyListSize)
+                .reversed().map { it.totalAmount }
+            if (xAxisList.isNotEmpty() && yAxisListFirst.isNotEmpty() && yAxisListSecond.isNotEmpty() && xAxisList.size > 2) {
+                Graph("Quantity of Milk (ltr)", xAxisList, yAxisListFirst)
+                Graph("Total Milk sold (₹)", xAxisList, yAxisListSecond)
+            }
             Text(
                 text = "Recent History", style = getTextStyle(
                     Color.Black, 18.sp,
@@ -187,7 +179,9 @@ fun HomeScreen(navigator: NavHostController, viewModel: MilkSaleViewModel) {
                 modifier = Modifier.padding(16.dp)
             )
             LazyColumn(
-                Modifier.fillMaxWidth().height(400.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .height(400.dp),
                 contentPadding = PaddingValues(16.dp)
             ) {
                 items(

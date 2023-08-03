@@ -69,7 +69,7 @@ fun SaleCard(
             )
             TextCell(
                 textTop = { "Average price/litre" },
-                textBottom = { totalAvgPriceForPeriod() },
+                textBottom = { "₹ ${totalAvgPriceForPeriod()}" },
                 modifier = Modifier
                     .weight(1f)
                     .padding(top = 16.dp)

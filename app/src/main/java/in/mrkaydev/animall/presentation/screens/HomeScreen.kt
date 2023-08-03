@@ -74,16 +74,16 @@ fun HomeScreen(navigator: NavHostController, viewModel: MilkSaleViewModel) {
         val totalRevenueListForPeriod by viewModel.milkSalesForPeriod.collectAsState(initial = emptyList())
 
         var totalQuantity by remember {
-            mutableStateOf("-")
+            mutableStateOf("")
         }
         var totalRevenue by remember {
-            mutableStateOf("-")
+            mutableStateOf("")
         }
         var totalUser by remember {
-            mutableStateOf("-")
+            mutableStateOf("")
         }
         var totalAvgPrice by remember {
-            mutableStateOf("-")
+            mutableStateOf("")
         }
 
         when (dataRangeList[currentItemIndex]) {

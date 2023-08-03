@@ -64,7 +64,7 @@ fun SaleCard(
                     .border(
                         1.dp,
                         Color.Gray.copy(alpha = 0.1f),
-                        RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)
+                        RoundedCornerShape(bottomStart = 12.dp)
                     )
             )
             TextCell(
@@ -76,7 +76,7 @@ fun SaleCard(
                     .border(
                         1.dp,
                         Color.Gray.copy(alpha = 0.1f),
-                        RoundedCornerShape(bottomStart = 12.dp, bottomEnd = 12.dp)
+                        RoundedCornerShape(bottomEnd = 12.dp)
                     )
             )
         }

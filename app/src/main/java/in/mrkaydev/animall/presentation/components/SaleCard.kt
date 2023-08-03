@@ -41,7 +41,7 @@ fun SaleCard(
             modifier = Modifier.padding(start = 24.dp, top = 16.dp)
         )
         Text(
-            text = "Rs ${totalRevenueForPeriod()} / ltr ${totalQuantityForPeriod()}",
+            text = "₹ ${totalRevenueForPeriod()} / ltr ${totalQuantityForPeriod()}",
             style = getTextStyle(
                 fontSize = 18.sp,
                 fontFamily = appFontBold,

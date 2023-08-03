@@ -5,7 +5,9 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import `in`.mrkaydev.animall.database.MilkSaleEntity
 import `in`.mrkaydev.animall.repository.MilkSaleRepository
+import `in`.mrkaydev.animall.utils.CommonUtils
 import `in`.mrkaydev.animall.utils.CommonUtils.toMilliSeconds
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -49,6 +51,9 @@ class MilkSaleViewModel @Inject constructor(private val repository: MilkSaleRepo
     /*
      * For Average price
      */
+    private val _averagePricePeriodTillNow = MutableStateFlow(0.0)
+    val averagePricePeriodTillNow: StateFlow<Double> get() = _averagePricePeriodTillNow
+
     private val _averagePricePeriod = MutableStateFlow(0.0)
     val averagePricePeriod: StateFlow<Double> get() = _averagePricePeriod
 
@@ -56,6 +61,7 @@ class MilkSaleViewModel @Inject constructor(private val repository: MilkSaleRepo
         getMilkSalesTillNow()
         getTotalRevenue()
         getTotalQuantity()
+        getAverageMilkPriceTotal()
     }
 
     /*
@@ -81,7 +87,7 @@ class MilkSaleViewModel @Inject constructor(private val repository: MilkSaleRepo
     /*
      * Function to fetch total quantity till now
      */
-    fun getTotalQuantity() {
+    private fun getTotalQuantity() {
         viewModelScope.launch {
             repository.getTotalQuantity().collect {
                 it?.let { it1 -> _totalQuantityTillNow.emit(it1) }
@@ -103,7 +109,7 @@ class MilkSaleViewModel @Inject constructor(private val repository: MilkSaleRepo
     /*
      * Function to fetch MilkSales for a given period
      */
-    fun getMilkSalesForPeriod(startDate: Date, endDate: Date) {
+    private fun getMilkSalesForPeriod(startDate: Date, endDate: Date) {
         viewModelScope.launch {
             repository.getMilkSalesForPeriod(startDate.toMilliSeconds(), endDate.toMilliSeconds())
                 .collect {
@@ -115,7 +121,7 @@ class MilkSaleViewModel @Inject constructor(private val repository: MilkSaleRepo
     /*
      * Function to fetch Milk quantity for a given period
      */
-    fun getMilkQuantityForPeriod(startDate: Date, endDate: Date) {
+    private fun getMilkQuantityForPeriod(startDate: Date, endDate: Date) {
         viewModelScope.launch {
             repository.getTotalQuantityForPeriod(
                 startDate.toMilliSeconds(),
@@ -130,7 +136,7 @@ class MilkSaleViewModel @Inject constructor(private val repository: MilkSaleRepo
     /*
      * Function to fetch Milk Revenue for a given period
      */
-    fun getMilkRevenueForPeriod(startDate: Date, endDate: Date) {
+    private fun getMilkRevenueForPeriod(startDate: Date, endDate: Date) {
         viewModelScope.launch {
             repository.getTotalRevenueForPeriod(
                 startDate.toMilliSeconds(),
@@ -145,7 +151,7 @@ class MilkSaleViewModel @Inject constructor(private val repository: MilkSaleRepo
     /*
      * Function to fetch Milk Revenue for a given period
      */
-    fun getAverageMilkPriceForPeriod(startDate: Date, endDate: Date) {
+    private fun getAverageMilkPriceForPeriod(startDate: Date, endDate: Date) {
         viewModelScope.launch {
             repository.getAveragePriceForPeriod(
                 startDate.toMilliSeconds(),
@@ -154,6 +160,26 @@ class MilkSaleViewModel @Inject constructor(private val repository: MilkSaleRepo
                 .collect {
                     it?.let { it1 -> _averagePricePeriod.emit(it1) }
                 }
+        }
+    }
+    /*
+    * Function to fetch Milk Revenue for all
+    */
+    private fun getAverageMilkPriceTotal() {
+        viewModelScope.launch {
+            repository.getAveragePriceTotal()
+                .collect {
+                    it?.let { it1 -> _averagePricePeriodTillNow.emit(it1) }
+                }
+        }
+    }
+
+    fun getAllDataForDate(days: Int) {
+        viewModelScope.launch {
+            async { getMilkRevenueForPeriod(Date(), CommonUtils.subtractDaysFromDate(days)) }
+            async { getMilkQuantityForPeriod(Date(), CommonUtils.subtractDaysFromDate(days)) }
+            async { getAverageMilkPriceForPeriod(Date(), CommonUtils.subtractDaysFromDate(days)) }
+            async { getMilkSalesForPeriod(Date(), CommonUtils.subtractDaysFromDate(days)) }
         }
     }
 }

@@ -53,7 +53,7 @@ fun HistoryItem(item: MilkSaleEntity) {
             )
             TextCell(
                 textTop = { "Rate per litre" },
-                textBottom = { "₹ ${item.quantity}" },
+                textBottom = { "₹ ${item.pricePerUnit}" },
                 modifier = Modifier
                     .weight(1f)
                     .padding(top = 16.dp)

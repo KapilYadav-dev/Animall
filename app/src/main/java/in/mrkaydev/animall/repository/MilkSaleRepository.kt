@@ -39,4 +39,7 @@ class MilkSaleRepository @Inject constructor(private val milkSaleDao: MilkSaleDa
     fun getAveragePriceForPeriod(startDate: Long, endDate: Long): Flow<Double?> {
         return milkSaleDao.getAveragePriceForPeriod(startDate, endDate)
     }
+    fun getAveragePriceTotal(): Flow<Double?> {
+        return milkSaleDao.getAveragePriceTotal()
+    }
 }

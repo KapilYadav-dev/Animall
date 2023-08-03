@@ -9,7 +9,14 @@ object CommonUtils {
         return calendar.time
     }
 
-    fun Date.toLong():Long {
-        return this.time
+    fun Date.toMilliSeconds() = this.time
+
+    fun String.toDoubleSafe(defaultValue: Double = 0.0): Double {
+        return try {
+            this.toDouble()
+        } catch (e: NumberFormatException) {
+            println("Exception ho rha hai jiiiii")
+            defaultValue
+        }
     }
 }

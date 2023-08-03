@@ -15,11 +15,11 @@ class MilkSaleRepository @Inject constructor(private val milkSaleDao: MilkSaleDa
         return milkSaleDao.getAllList()
     }
 
-    fun getTotalQuantity():Flow<Double> {
+    fun getTotalQuantity():Flow<Double?> {
         return milkSaleDao.getTotalQuantity()
     }
 
-    fun getTotalRevenue():Flow<Double> {
+    fun getTotalRevenue():Flow<Double?> {
         return milkSaleDao.getTotalRevenue()
     }
 

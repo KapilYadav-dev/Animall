@@ -42,10 +42,6 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
             quantityInput * perUnitInput
         }
     }
-    val totalRevenueValue by rememberSaveable {
-        mutableStateOf(totalRevenue)
-    }
-
     Column(
         Modifier
             .fillMaxWidth()
@@ -66,7 +62,7 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
                 onValueChange = {
                     quantityInput = it.toDoubleSafe()
                 },
-                inputValue = { 0.0 },
+                inputValue = { quantityInput },
                 modifier = Modifier
                     .weight(1f)
                     .border(1.dp, Color.Gray.copy(alpha = 0.1f), RectangleShape)
@@ -79,43 +75,52 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
                 modifier = Modifier
                     .weight(1f)
                     .border(1.dp, Color.Gray.copy(alpha = 0.1f), RectangleShape),
-                inputValue = { 0.0 }
+                inputValue = { perUnitInput }
             )
             InputCell(
                 text = { "Total price" },
-                onValueChange = {
-                    totalRevenue.toString()
-                },
+                onValueChange = {},
                 modifier = Modifier
                     .weight(1f)
                     .border(1.dp, Color.Gray.copy(alpha = 0.1f), RectangleShape),
                 inputValue = {
-                    totalRevenueValue
+                    totalRevenue
                 }
             )
         }
         Button(
             onClick = {
+                if (quantityInput == 0.0) {
+                    Toast.makeText(context,"Milk quantity can't be 0",Toast.LENGTH_LONG).show()
+                    return@Button
+                }
+                if (perUnitInput == 0.0) {
+                    Toast.makeText(context,"Price per unit can't be 0",Toast.LENGTH_LONG).show()
+                    return@Button
+                }
                 val data = MilkSaleEntity(
                     null,
                     quantityInput,
                     perUnitInput,
-                    totalRevenueValue,
+                    totalRevenue,
                     Date().toMilliSeconds()
                 )
                 viewModel.insertMilkSale(data)
-                Toast.makeText(context,"Sale add successfully",Toast.LENGTH_LONG).show()
+                Toast.makeText(context, "Sale add successfully", Toast.LENGTH_LONG).show()
+                quantityInput = 0.0
+                perUnitInput = 0.0
                 onSuccess()
             }, colors = ButtonDefaults.buttonColors(
                 backgroundColor = Teal200
-            ), modifier = Modifier.padding(top = 24.dp)
+            ), modifier = Modifier
+                .fillMaxWidth()
+                .padding(24.dp)
         ) {
             Text(
                 text = "Add to sales",
                 style = getTextStyle(Color.White, 22.sp, appFontBold, TextAlign.Center),
                 modifier = Modifier
-                    .padding(16.dp)
-                    .fillMaxWidth()
+                    .padding(8.dp)
             )
         }
     }
@@ -129,7 +134,7 @@ fun InputCell(
     inputValue: () -> Double,
     isEnabled: Boolean = true
 ) {
-    var textState by remember { mutableStateOf(inputValue().toString()) }
+    var textState = inputValue().toString()
     val pattern = remember { Regex("^(\\d*\\.?\\d*)\$") }
     val maxChar = 8
     Column(

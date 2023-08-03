@@ -52,4 +52,9 @@ object CommonUtils {
     fun getDataRangeList() = listOf(
         "Total","Daily","Weekly","Monthly","Yearly"
     )
+    fun String.removeValuesAfterTwoDecimalPlaces(): String {
+        val regex = """^(\d+\.\d{0,2}).*""".toRegex()
+        val matchResult = regex.find(this)
+        return matchResult?.groupValues?.get(1) ?: this
+    }
 }

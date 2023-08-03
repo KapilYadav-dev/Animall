@@ -116,7 +116,6 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
             minDateTime = LocalDateTime.of(
                 2005, 10, 20, 5, 30
             ),
-            maxDateTime = dateToLocalDateTime(selectedDate),
             textStyle = TextStyle(fontFamily = appFontBold),
             startDateTime = dateToLocalDateTime(selectedDate),
             size = DpSize(CommonUtils.screenWidthInDp().dp, 100.dp),

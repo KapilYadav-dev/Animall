@@ -12,9 +12,9 @@ https://github.com/KapilYadav-dev/Animall/assets/69911517/8a2d005a-8ed9-4b9a-89a
 
 ## Download Apks
 
-https://drive.google.com/file/d/1TySRmRt8zGDKn03OT4yjUFmDvuD0ExSc/view?usp=sharing 
+https://github.com/KapilYadav-dev/Animall/raw/main/apks/app-release.apk
 
-https://drive.google.com/file/d/1pRez9Ry3oJtWYC1MtOXrkNDgR_bmpHwd/view?usp=sharing
+https://github.com/KapilYadav-dev/Animall/raw/main/apks/app-debug.apk
 
 ## Tech and libraries used
 

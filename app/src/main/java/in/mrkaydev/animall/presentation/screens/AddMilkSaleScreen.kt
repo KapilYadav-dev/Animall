@@ -35,6 +35,7 @@ import `in`.mrkaydev.animall.utils.CommonUtils.dateToLocalDateTime
 import `in`.mrkaydev.animall.utils.CommonUtils.localDateTimeToDate
 import `in`.mrkaydev.animall.utils.CommonUtils.toDoubleSafe
 import `in`.mrkaydev.animall.utils.CommonUtils.toMilliSeconds
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
 
@@ -115,6 +116,9 @@ fun MilkSaleScreen(viewModel: MilkSaleViewModel, onSuccess: () -> Unit) {
             timeFormat = TimeFormat.AM_PM,
             minDateTime = LocalDateTime.of(
                 2005, 10, 20, 5, 30
+            ),
+            maxDateTime = LocalDateTime.of(
+                2023, LocalDate.now().monthValue,30,12,59
             ),
             textStyle = TextStyle(fontFamily = appFontBold),
             startDateTime = dateToLocalDateTime(selectedDate),
